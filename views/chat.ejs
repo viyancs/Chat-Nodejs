@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Chat Application</title>
+
+    <!-- Bootstrap -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- apps -->
+    <link href="stylesheets/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <div class="row">
+      <div class="panel panel-info">
+        <!-- Default panel contents -->
+        <div class="panel-heading " style="text-align:left">&nbsp;Create by viyancs</div>
+        <div class="panel-body">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            
+            <div class="chat_window">
+              <div class="top_menu">
+                <div class="buttons">
+                  <div class="button close">
+                  </div>
+                  <div class="button minimize"></div>
+                  <div class="button maximize"></div>
+                </div>
+                <div class="title">Chat</div>
+                <a href="/signout" class="btn btn-default pull-right" style="margin-top: -35px;margin-right: 20px;">Logout</a>
+              </div>
+              <ul class="messages"></ul>
+              <div class="bottom_wrapper clearfix">
+                <div class="message_input_wrapper">
+                  <input class="message_input" placeholder="Type your message here..." />
+                </div>
+                <div class="send_message">
+                  <div class="icon"></div>
+                  <div class="text">Send</div>
+                </div>
+              </div>
+            </div>
+            <div class="message_template">
+              <li class="message">
+                <div class="avatar"></div>
+                <div class="text_wrapper">
+                  <div class="text"></div>
+                </div>
+              </li>
+            </div>
+            
+          </div>
+          <div class="col-md-2"></div>
+          
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>  
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="javascripts/chat_box.js"></script>
+    <script>  
+      $(function () {
+        var username = '<%= username %>';
+        var colorProfile = '<%= color %>';
+        var socket = io.connect('http://localhost:3000');
+
+        socket.on('connect', function(data) {
+            socket.emit('adduser', username,colorProfile);
+        });
+
+        socket.on('updatechat', function(from,data,color) {
+            console.log(from + ' :  ' + data);
+            if (from === 'SERVER') {
+                $(".messages").append('<li class="message appeared"><div class="text">' + data +'</div></li>');
+            }
+            else if (from === username) {
+              //dont do anything
+            }
+            else {
+                sendMessage('<b>' + from + '</b><br/>' + data,'left',color);
+            }
+            
+        });
+
+        $('.send_message').click(function (e) {
+            socket.emit('sendchat', getMessageText());
+            return sendMessage(getMessageText(),'right',null);
+        });
+        $('.message_input').keyup(function (e) {
+            if (e.which === 13) {
+                socket.emit('sendchat', getMessageText());
+                return sendMessage(getMessageText(),'right',null);
+            }
+        });
+      });
+    </script>
+  </body>
+</html>
