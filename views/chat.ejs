@@ -80,7 +80,7 @@
       $(function () {
         var username = '<%= username %>';
         var colorProfile = '<%= color %>';
-        var socket = io.connect('http://localhost:3000');
+        var socket = io.connect('https://enigmatic-thicket-50747.herokuapp.com:3000');
 
         socket.on('connect', function(data) {
             socket.emit('adduser', username,colorProfile);
