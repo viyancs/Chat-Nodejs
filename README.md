@@ -3,12 +3,12 @@ Chat-Nodejs
 
 this repository is about web chat application , some library include is
 <br>
-1) nodejs 
-2) expressjs
-3) socket.io
-4) mongodb
-5) ejs view engine
-6) passport as authentication
+1) nodejs <br>
+2) expressjs <br>
+3) socket.io <br>
+4) mongodb <br>
+5) ejs view engine <br>
+6) passport as authentication <br>
 
 Running The Application
 -----------------------
