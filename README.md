@@ -1,7 +1,7 @@
 Chat-Nodejs
 ============
 
-this repository is about web chat application , some library include is
+This repository is about web chat application.
 <br>
 1) nodejs <br>
 2) expressjs <br>
@@ -20,6 +20,8 @@ Running The Application
 Features
 -----------------------
 * group chat 
+* login
+* singup
 
 Bugging 
 -----------------------
