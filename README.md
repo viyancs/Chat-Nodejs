@@ -25,7 +25,7 @@ Features
 
 Bugging 
 -----------------------
-
+* Security Issue (XSS) Vulnerable
 * I am not testing 100% , so please if u are found something mistake let me know by create issue
 
 Licence 
