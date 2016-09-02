@@ -23,7 +23,7 @@
         }(this);
         return this;
     };
-    
+
         var getMessageText, message_side, sendMessage;
         message_side = 'right';
         getMessageText = function () {
