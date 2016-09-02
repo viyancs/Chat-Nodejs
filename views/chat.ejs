@@ -29,7 +29,7 @@
         <div class="panel-body">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            
+
             <div class="chat_window">
               <div class="top_menu">
                 <div class="buttons">
@@ -60,23 +60,27 @@
                 </div>
               </li>
             </div>
-            
+
           </div>
           <div class="col-md-2"></div>
-          
+
         </div>
       </div>
     </div>
 
+    <script id="chat-template" type="text/x-handlebars-template">
+        <li class="message appeared"><div class="text">{{message}}</div></li>
+    </script>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>  
+    <script src="/socket.io/socket.io.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
     <script src="javascripts/chat_box.js"></script>
-    <script>  
+    <script>
       $(function () {
         var username = '<%= username %>';
         var colorProfile = '<%= color %>';
@@ -87,17 +91,19 @@
         });
 
         socket.on('updatechat', function(from,data,color) {
+            var template   = Handlebars.compile($("#chat-template").html());
+            var chatContent = template({message: data});
             console.log(from + ' :  ' + data);
             if (from === 'SERVER') {
-                $(".messages").append('<li class="message appeared"><div class="text">' + data +'</div></li>');
+                $(".messages").append('<li class="message appeared"><div class="text">' + chatContent +'</div></li>');
             }
             else if (from === username) {
               //dont do anything
             }
             else {
-                sendMessage('<b>' + from + '</b><br/>' + data,'left',color);
+                sendMessage('<b>' + from + '</b><br/>' + chatContent,'left',color);
             }
-            
+
         });
 
         $('.send_message').click(function (e) {
